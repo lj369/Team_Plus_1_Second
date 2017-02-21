@@ -8,7 +8,12 @@
 #
 #----------------------------------------------------------------------------------------------
 
-
+# This is the main function for our embedded system design, our design is a device that can be placed on the outer glass surface of consumers' fish tank to warn user when their fish tank is turbid.
+# The basic principle is compare the real time colour reading with calibrated colour reading, and send corresponding message to user.
+# We have also develop several extra features:
+# I. User could define the reading time by UI program.
+# II. User could actively acquire real time data by UI program.
+# III. When there are large difference between calibration values, warning message will be sent.
 
 import sys,time,network,machine,json
 from umqtt.simple import MQTTClient
@@ -19,11 +24,8 @@ import rgb_sensor, net_manage,initialisation,data_processing
 
 flag,WAKE_TIME,MQTT_TOPIC,pled,i2c,client,calibration_value,next_cal_time,last_hour=initialisation.initialisation()
 
-#net_manage.send_datea(client,{'system time':current_time[4:6]},MQTT_TOPIC)
-current_time = [2017,2,16,4,7,55,44,0]
-
-
-
+#net_manage.send_date(client,{'system time':current_time[4:6]},MQTT_TOPIC)
+#current_time = [2017,2,16,4,7,55,44,0]
 
 # We are facing trading off between two different features(low power consuming and fast user input response).
 # In order to achieve low power consuming, we need to force our device to sleep when certain time(Read and calibration time) (approximately) arrives.
@@ -31,13 +33,17 @@ current_time = [2017,2,16,4,7,55,44,0]
 
 while 1:
     time.sleep(1)
-    current_time[4] = current_time[4]+1
-    print(current_time)
-    if current_time[4] >23:
-        current_time[4]=0
-        current_time[2]=current_time[2]+1
-    ###########current_time=list(rtc.datetime())
-#!    print ('system time is '+repr(current_time)+' \n')    
+    #-------------------------------------------------------------------------------------------
+    ## Alternative way to set time, we use this for testing because retrive time from broker is too time consuming
+    #
+    #current_time[4] = current_time[4]+1
+    #print(current_time)
+    #if current_time[4] >23:
+    #    current_time[4]=0
+    #    current_time[2]=current_time[2]+1
+    #--------------------------------------------------------------------------------------------
+    current_time=list(rtc.datetime())
+    print ('system time is '+repr(current_time)+' \n')    
 
 #!   if flag[1]==True:
 #!       pwarn.value(1)
