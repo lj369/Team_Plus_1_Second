@@ -125,7 +125,7 @@ def data_acquire_and_analysation (flag,calibration_value,client,i2c,pled):
     print(rgb_normalised)
     print('calibration value:')
     print(calibration_value)
-    net_manage.send_data(client,{'measured value:':rgb_normalised,'calibration value:':calibration_value})
+    net_manage.send_data(client,{'message':{'measured value:':rgb_normalised,'calibration value:':calibration_value}})
     flag=comparison (flag,rgb_normalised,calibration_value)
     return flag
 
