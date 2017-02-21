@@ -37,9 +37,9 @@ def send_data(client,message):
 #def send_user_data(client,message):
 #    global MQTT_USER_IN_TOPIC
 #    if (type(message) is list):
-#        message=({'message':message}
+#        message={'message':message}
 #    else:
-#        message=({'message':str(message)}   
+#        message={'message':str(message)}
 #    payload = json.dumps(message)
 #    client.publish(MQTT_USER_IN_TOPIC,bytes(payload,'utf-8'))
 
